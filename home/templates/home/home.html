@@ -1,9 +1,97 @@
 <!-- home/templates/home/index.html -->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Welcome</title>
+  <meta charset="UTF-8" />
+  <title>Admin Update</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Animated pastel blue rainbow background */
+    @keyframes pastelRainbow {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    body {
+      background: linear-gradient(
+        270deg,
+        #a8dadc,
+        #457b9d,
+        #1d3557,
+        #a8dadc,
+        #457b9d
+      );
+      background-size: 1000% 1000%;
+      animation: pastelRainbow 30s ease infinite;
+      font-family: sans-serif;
+      padding: 30px;
+      margin: 0;
+      height: 100vh;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 2in auto 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 10px solid black;
+      box-sizing: border-box;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      font-family: 'Dancing Script', cursive;
+      text-align: center;
+      font-size: 50px;
+      margin: 0 0 20px 0;
+    }
+
+    /* Grid for 2 columns and 6 rows */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 12px;
+    }
+
+    .subject {
+      display: flex;
+      justify-content: space-between;
+      background: #e0f0ff;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-family: 'Arial Black', Gadget, sans-serif;
+      font-size: 18px;
+      align-items: center;
+    }
+
+    .subject span {
+      font-size: 24px;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello from the Home page!</h1>
+  <div class="container">
+    <h2>Welcome ICCTians</h2>
+    <div class="grid">
+      <div class="subject">Sub1 <span>😊</span></div>
+      <div class="subject">New Sub1 <span>⭕</span></div>
+      <div class="subject">Sub2 <span>⭕</span></div>
+      <div class="subject">Sub3 <span>⭕</span></div>
+      <div class="subject">Sub4 <span>⭕</span></div>
+      <div class="subject">Sub5 <span>⭕</span></div>
+    </div>
+  </div>
 </body>
 </html>

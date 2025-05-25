@@ -1,0 +1,234 @@
+/* frontend/css/dashboard.css */
+
+.dashboard-section {
+    background-color: var(--light-grey); /* Keep the section background light */
+    padding: 30px 0; /* Adjust padding if needed */
+    border-radius: 8px;
+    /* box-shadow: 0 4px 10px rgba(0,0,0,0.08); Remove individual section shadow if cards have it */
+    margin-bottom: 30px;
+}
+
+.dashboard-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--border-color); /* Lighter border */
+    padding-bottom: 15px;
+    font-size: 2em;
+    text-align: center;
+}
+
+/* Styles for the grid of request cards */
+#request-cards-container { /* Renamed from student-list-container for clarity */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 2 columns or more, adapt to width */
+    gap: 25px; /* Spacing between cards */
+    margin-top: 20px;
+}
+
+.request-card {
+    background-color: var(--card-bg); /* White card background */
+    border: 1px solid var(--border-color);
+    border-radius: 10px; /* More rounded corners */
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Stronger shadow for cards */
+    display: flex;
+    flex-direction: column;
+}
+
+.request-card h3 {
+    color: var(--primary-color); /* Dark blue for student name */
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.request-card h3 .smiley-icon { /* Style for the smiley icon next to name */
+    font-size: 1.5em;
+    color: #FFD700; /* Gold color for smiley */
+}
+
+.request-card .reason-text {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 15px;
+}
+
+.grade-input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between elements */
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.grade-input-group .current-grade-display {
+    background-color: var(--secondary-color); /* Light pink background for current grade */
+    color: var(--primary-color); /* Dark blue text */
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    min-width: 60px; /* Ensure consistent width */
+    text-align: center;
+    border: 1px solid #e0c8ca; /* Slightly darker border for current grade box */
+}
+
+.grade-input-group .arrow-icon {
+    font-size: 1.5em;
+    color: #777; /* Neutral color for arrow */
+}
+
+.grade-input-group .new-grade-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 1; /* Allows input to take available space */
+}
+
+.grade-input-group label {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.grade-input-group input[type="number"] {
+    width: 90px; /* Specific width for new grade input */
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.grade-input-group input[type="number"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.grade-update-form button {
+    background-color: var(--primary-color); /* Submit button uses primary color */
+    color: var(--dark-text-on-primary);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end; /* Push button to the right/bottom if in a column */
+    width: 100%; /* Make button full width of its container */
+    margin-top: auto; /* Push to bottom if content is dynamic */
+}
+
+.grade-update-form button:hover {
+    background-color: #3b4e9f;
+}
+
+.grade-update-form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    color: #666;
+}
+
+#no-requests-message {
+    text-align: center;
+    color: #888;
+    margin-top: 50px;
+    font-size: 1.2em;
+}
+
+/* Styles for lists of subjects/students (Student Dashboard) */
+.list-container { /* Re-used from previous CSS for student dashboard */
+    display: grid;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.subject-item {
+    background-color: var(--secondary-color); /* Light pink background */
+    border: 1px solid #e0c8ca;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.subject-item span {
+    font-size: 1.1em;
+    color: var(--primary-color); /* Dark blue text for subject info */
+}
+
+.subject-name {
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+.current-grade-display {
+    margin-left: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.report-icon {
+    font-size: 1.4em;
+    color: #FF9800; /* Orange for report icon */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.report-icon:hover {
+    color: #e68a00;
+}
+
+/* Modal for reporting issue (reused from general styles) */
+.modal-issue-report .modal-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+.modal-issue-report textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Responsive adjustments for dashboards */
+@media (max-width: 768px) {
+    .dashboard-section {
+        padding: 20px;
+    }
+    .dashboard-section h2 {
+        font-size: 1.8em;
+    }
+    #request-cards-container {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+    .request-card {
+        padding: 20px;
+    }
+    .grade-input-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .grade-input-group .new-grade-input-wrapper {
+        width: 100%;
+    }
+    .grade-update-form button {
+        margin-top: 15px;
+    }
+
+    /* Student dashboard adjustments */
+    .subject-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .subject-name, .current-grade-display {
+        width: 100%;
+        text-align: left;
+    }
+}

@@ -192,58 +192,73 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById("signin-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const errorSpan = document.getElementById("login-error");
+<script>
+  // Student login
+  document.getElementById("signin-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const errorSpan = document.getElementById("login-error");
 
-      try {
-        const response = await fetch("http://localhost:3000/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ student_number: username }),
-        });
+    try {
+      const response = await fetch("/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ student_number: username }),
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (result.success) {
-          errorSpan.style.display = "none";
-          window.location.href = "{% url 'home' %}";
-        } else {
-          errorSpan.textContent = result.message || "Invalid student number.";
-          errorSpan.style.display = "block";
-        }
-      } catch (error) {
-        errorSpan.textContent = "ID number you entered doesn't exist";
-        errorSpan.style.display = "block";
-      }
-    });
-
-    // Modal Control
-    document.getElementById("admin-btn").addEventListener("click", () => {
-      document.getElementById("admin-modal").style.display = "flex";
-      document.getElementById("admin-password").value = "";
-      document.getElementById("admin-error").style.display = "none";
-    });
-
-    function closeModal() {
-      document.getElementById("admin-modal").style.display = "none";
-      document.getElementById("admin-error").style.display = "none";
-    }
-
-    function submitAdminPassword() {
-      const password = document.getElementById("admin-password").value;
-      const errorSpan = document.getElementById("admin-error");
-      const correctPassword = "password";
-
-      if (password === correctPassword) {
+      if (result.success) {
         errorSpan.style.display = "none";
-        window.location.href = "{% url 'custom_admin' %}";
+        window.location.href = "{% url 'home' %}";
       } else {
+        errorSpan.textContent = result.message || "Invalid student number.";
         errorSpan.style.display = "block";
       }
+    } catch (error) {
+      errorSpan.textContent = "An error occurred. Please try again.";
+      errorSpan.style.display = "block";
     }
-  </script>
+  });
+
+  // Admin modal controls
+  document.getElementById("admin-btn").addEventListener("click", function () {
+    document.getElementById("admin-modal").style.display = "flex";
+    document.getElementById("admin-password").value = "";
+    document.getElementById("admin-error").style.display = "none";
+  });
+
+  function closeModal() {
+    document.getElementById("admin-modal").style.display = "none";
+    document.getElementById("admin-error").style.display = "none";
+  }
+
+ function submitAdminPassword() {
+  const password = document.getElementById("admin-password").value.trim();
+  const errorSpan = document.getElementById("admin-error");
+
+  fetch("/admin-login/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password: password }),
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      errorSpan.style.display = "none";
+      window.location.href = "{% url 'custom_admin' %}";
+    } else {
+      errorSpan.style.display = "block";
+    }
+  })
+  .catch(() => {
+    errorSpan.style.display = "block";
+  });
+}
+
+</script>
+
+
+
 </body>
 </html>

@@ -134,30 +134,31 @@
 </head>
 <body>
   <div class="container">
-    <h2>Welcome ICCTians</h2>
-    <div class="subject">
-  <div class="subject-name">Subject 1 :</div>
-  <div class="subject-grade">Grade: 95</div>
+    <h2>Welcome {{ student_name }}!</h2>
+<div class="subject">
+  <div class="subject-name">Subject 1: SE2</div>
+  <div class="subject-grade">Grade: {{ grade_se2 }}</div>
   <div class="subject-report">
     <span class="report" onclick="openReport(this)">❗</span>
   </div>
 </div>
 
 <div class="subject">
-  <div class="subject-name">Subject 2 :</div>
-  <div class="subject-grade">Grade: 88</div>
+  <div class="subject-name">Subject 2: Cisco</div>
+  <div class="subject-grade">Grade: {{ grade_cisco }}</div>
   <div class="subject-report">
     <span class="report" onclick="openReport(this)">❗</span>
   </div>
 </div>
 
 <div class="subject">
-  <div class="subject-name">Subject 3 :</div>
-  <div class="subject-grade">Grade: 90</div>
+  <div class="subject-name">Subject 3: GVElec</div>
+  <div class="subject-grade">Grade: {{ grade_gvelec }}</div>
   <div class="subject-report">
     <span class="report" onclick="openReport(this)">❗</span>
   </div>
 </div>
+
 
   </div>
 

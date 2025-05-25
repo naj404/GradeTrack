@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home Page</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: linear-gradient(-45deg, #87ceeb, #4169e1, #b0e0e6, #1e90ff);
+      background-size: 400% 400%;
+      animation: bgAnimation 20s ease infinite;
+      font-family: sans-serif;
+      padding: 30px;
+      margin: 0;
+      height: 100vh;
+    }
+
+    @keyframes bgAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 2in auto 0 auto; /* top 2 inches, horizontal center */
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 10px solid black;  /* <-- changed here */
+      box-sizing: border-box;
+    }
+
+    h2 {
+      font-family: 'Dancing Script', cursive;
+      text-align: center;
+      font-size: 50px;
+      margin: 0 0 20px 0;
+    }
+
+    .subject {
+      display: flex;
+      justify-content: center;
+      background: #e0f0ff;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-family: 'Arial Black', Gadget, sans-serif;
+      position: relative;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    .subject span.report {
+      position: absolute;
+      right: 15px;
+      font-size: 20px;
+      color: red;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    textarea {
+      width: 100%;
+      height: 70px;
+      margin-bottom: 10px;
+      resize: none;
+      font-size: 16px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .modal-buttons button {
+      width: 48%;
+      padding: 8px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal-buttons .submit-btn {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .modal-buttons .cancel-btn {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Welcome ICCTians</h2>
+    <div class="subject">
+      Student
+      <span class="report" onclick="openReport(this)">❗</span>
+    </div>
+    <div class="subject">
+      Subject
+      <span class="report" onclick="openReport(this)">❗</span>
+    </div>
+    <div class="subject">
+      Grade
+      <span class="report" onclick="openReport(this)">❗</span>
+    </div>
+  </div>
+
+  <div class="modal" id="reportModal">
+    <div class="modal-content">
+      <h3>Report Issue</h3>
+      <textarea id="issueText" placeholder="Enter your issue..."></textarea>
+      <div class="modal-buttons">
+        <button class="submit-btn" onclick="submitReport()">Request Change</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentIcon = null;
+
+    function openReport(icon) {
+      currentIcon = icon;
+      document.getElementById("reportModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("issueText").value = "";
+      document.getElementById("reportModal").style.display = "none";
+    }
+
+    function submitReport() {
+      const text = document.getElementById("issueText").value;
+      if (text.trim() === "") {
+        alert("Please type an issue.");
+        return;
+      }
+      alert("Report submitted: " + text);
+      currentIcon.innerText = "⭕"; // change icon after report
+      document.getElementById("issueText").value = "";
+      document.getElementById("reportModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>

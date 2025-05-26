@@ -10,5 +10,6 @@ urlpatterns = [
     path('admin/', custom_admin_view, name='custom_admin'),
     path('login/', views.login_view, name='login'),  
     path('admin-login/', views.admin_login_view, name='admin_login'),
+    path("submit-report/", views.submit_report_view, name="submit_report"),
 
 ]

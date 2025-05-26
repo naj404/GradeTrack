@@ -139,7 +139,14 @@
   <div class="subject-name">Subject 1: SE2</div>
   <div class="subject-grade">Grade: {{ grade_se2 }}</div>
   <div class="subject-report">
-    <span class="report" onclick="openReport(this)">❗</span>
+<span class="report"
+      data-subject="SE2"
+      {% if "SE2" not in reported_subjects %}onclick="openReport(this)"{% endif %}>
+  {% if "SE2" in reported_subjects %}⭕{% else %}❗{% endif %}
+</span>
+
+
+
   </div>
 </div>
 
@@ -147,7 +154,13 @@
   <div class="subject-name">Subject 2: Cisco</div>
   <div class="subject-grade">Grade: {{ grade_cisco }}</div>
   <div class="subject-report">
-    <span class="report" onclick="openReport(this)">❗</span>
+<span class="report"
+      data-subject="Cisco"
+      {% if "Cisco" not in reported_subjects %}onclick="openReport(this)"{% endif %}>
+  {% if "Cisco" in reported_subjects %}⭕{% else %}❗{% endif %}
+</span>
+
+
   </div>
 </div>
 
@@ -155,7 +168,13 @@
   <div class="subject-name">Subject 3: GVElec</div>
   <div class="subject-grade">Grade: {{ grade_gvelec }}</div>
   <div class="subject-report">
-    <span class="report" onclick="openReport(this)">❗</span>
+<span class="report"
+      data-subject="GVElec"
+      {% if "GVElec" not in reported_subjects %}onclick="openReport(this)"{% endif %}>
+  {% if "GVElec" in reported_subjects %}⭕{% else %}❗{% endif %}
+</span>
+
+
   </div>
 </div>
 
@@ -174,29 +193,49 @@
   </div>
 
   <script>
-    let currentIcon = null;
+  let currentIcon = null;
+  let currentSubject = null;
 
-    function openReport(icon) {
-      currentIcon = icon;
-      document.getElementById("reportModal").style.display = "flex";
+  function openReport(icon) {
+    currentIcon = icon;
+    currentSubject = icon.getAttribute("data-subject");
+    document.getElementById("reportModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("issueText").value = "";
+    document.getElementById("reportModal").style.display = "none";
+    currentSubject = null;
+  }
+
+  async function submitReport() {
+    const text = document.getElementById("issueText").value.trim();
+    if (text === "") {
+      alert("Please type an issue.");
+      return;
     }
 
-    function closeModal() {
-      document.getElementById("issueText").value = "";
-      document.getElementById("reportModal").style.display = "none";
-    }
+    try {
+      const response = await fetch("/submit-report/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ report: text, subject_name: currentSubject })
+      });
 
-    function submitReport() {
-      const text = document.getElementById("issueText").value;
-      if (text.trim() === "") {
-        alert("Please type an issue.");
-        return;
+      const result = await response.json();
+      if (result.success) {
+        alert("✅ Report submitted successfully!");
+        currentIcon.innerText = "⭕";
+        closeModal();
+      } else {
+        alert("❌ Failed: " + result.message);
       }
-      alert("Report submitted: " + text);
-      currentIcon.innerText = "⭕"; // change icon after report
-      document.getElementById("issueText").value = "";
-      document.getElementById("reportModal").style.display = "none";
+    } catch (err) {
+      alert("🚫 Network error");
     }
-  </script>
+  }
+</script>
+
+
 </body>
 </html>

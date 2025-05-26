@@ -15,7 +15,7 @@
         <h1>Admin Grade Management</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Logout</a></li>
+                <li><a href="{% url 'index' %}">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -24,86 +24,36 @@
         <section class="dashboard-section">
             <h2>Grade Update Requests & Student Overview</h2>
 
-            <div id="request-cards-container">
-                <div class="request-card" data-request-id="1">
-                    <h3>
-                        <span class="smiley-icon">&#128512;</span> Juan Dela Cruz (S001)
-                    </h3>
-                    <p class="reason-text">Reason: Student improved significantly after tutoring sessions.</p>
-                    <div class="grade-input-group">
-                        <span class="current-grade-display">75</span>
-                        <span class="arrow-icon">&rarr;</span>
-                        <div class="new-grade-input-wrapper">
-                            <label for="newGrade_1">New Grade:</label>
-                            <input type="number" id="newGrade_1" value="75" min="0" max="100">
-                        </div>
-                    </div>
-                    <div class="grade-update-form">
-                        <button type="submit">Submit Update</button>
-                    </div>
-                </div>
+<div style="text-align: right; margin-bottom: 15px;">
+  <a href="{% url 'history' %}" class="btn-history" style="background: #1e90ff; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none;">📜 View History</a>
+</div>
 
-                <div class="request-card" data-request-id="2">
-                    <h3>
-                        <span class="smiley-icon">&#128512;</span> Alexa De Leon (S002)
-                    </h3>
-                    <p class="reason-text">Reason: Error in previous grade entry, corrected by instructor.</p>
-                    <div class="grade-input-group">
-                        <span class="current-grade-display">82</span>
-                        <span class="arrow-icon">&rarr;</span>
-                        <div class="new-grade-input-wrapper">
-                            <label for="newGrade_2">New Grade:</label>
-                            <input type="number" id="newGrade_2" value="75" min="0" max="100">
-                        </div>
-                    </div>
-                    <div class="grade-update-form">
-                        <button type="submit">Submit Update</button>
-                    </div>
-                </div>
+<div id="request-cards-container">
+  {% for report in reports %}
+    <div class="request-card" data-request-id="{{ forloop.counter }}" data-report-id="{{ report.id }}">
+      <h3>
+        <span class="smiley-icon">&#128512;</span> {{ report.name }} ({{ report.student_id }})
+      </h3>
+      <p class="reason-text">Reason: {{ report.report }}</p>
+      <div class="grade-input-group">
+        <span class="subject-tag">Subject: {{ report.subject_name }}</span><br>
+        <span class="current-grade-display">{{ report.current_grade }}</span>
+        <span class="arrow-icon">&rarr;</span>
+        <div class="new-grade-input-wrapper">
+          <label for="newGrade_{{ forloop.counter }}">New Grade:</label>
+          <input type="number" id="newGrade_{{ forloop.counter }}" value="75" min="0" max="100">
+        </div>
+      </div>
+      <div class="grade-update-form">
+        <button type="submit">Submit Update</button>
+      </div>
+    </div>
+  {% empty %}
+    <p id="no-requests-message">No pending grade update requests at this time.</p>
+  {% endfor %}
+</div>
 
-                <div class="request-card" data-request-id="3">
-                    <h3>
-                        <span class="smiley-icon">&#128512;</span> Pedo Penduko (S002)
-                    </h3>
-                    <p class="reason-text">Reason: Error in previous grade entry, corrected by instructor.</p>
-                    <div class="grade-input-group">
-                        <span class="current-grade-display">89</span>
-                        <span class="arrow-icon">&rarr;</span>
-                        <div class="new-grade-input-wrapper">
-                            <label for="newGrade_2">New Grade:</label>
-                            <input type="number" id="newGrade_2" value="75" min="0" max="100">
-                        </div>
-                    </div>
-                    <div class="grade-update-form">
-                        <button type="submit">Submit Update</button>
-                    </div>
-                </div>
 
-                <div class="request-card" data-request-id="4">
-                    <h3>
-                        <span class="smiley-icon">&#128512;</span> Taylor Batumbakal (S002)
-                    </h3>
-                    <p class="reason-text">Reason: Error in previous grade entry, corrected by instructor.</p>
-                    <div class="grade-input-group">
-                        <span class="current-grade-display">75</span>
-                        <span class="arrow-icon">&rarr;</span>
-                        <div class="new-grade-input-wrapper">
-                            <label for="newGrade_2">New Grade:</label>
-                            <input type="number" id="newGrade_2" value="75" min="0" max="100">
-                        </div>
-                    </div>
-                    <div class="grade-update-form">
-                        <button type="submit">Submit Update</button>
-                    </div>
-                </div>
-
-            </div>
-            
-
-           
-
-            <p id="no-requests-message" style="display: none;">No pending grade update requests at this time.</p>
-        </section>
     </main>
 
     <footer>

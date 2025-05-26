@@ -101,9 +101,75 @@ def submit_report_view(request):
     
 
 
+def fetch_reports_view(request):
+    from .supabase_client import get_all_reports, get_grade_by_student
+
+    reports = get_all_reports()
+
+    # For each report, get the current grade for the reported subject
+    for report in reports:
+        student_id = report.get("student_id")
+        subject = report.get("subject_name", "").lower()  # match key in grade table like 'se2', 'cisco', etc.
+        grades = get_grade_by_student(student_id)
+        if grades and len(grades) > 0:
+            grade_data = grades[0]
+            report["current_grade"] = grade_data.get(subject, "N/A")
+        else:
+            report["current_grade"] = "N/A"
+
+    return render(request, "home/admin.html", {"reports": reports})
+
+
+
+@csrf_exempt
+def update_grade_view(request):
+    if request.method == "POST":
+        import json
+        data = json.loads(request.body)
+        student_id = data.get("student_id")
+        subject = data.get("subject_name", "").lower()
+        new_grade = data.get("new_grade")
+
+        from .supabase_client import update_grade
+
+        if not student_id or not subject or new_grade is None:
+            return JsonResponse({"success": False, "message": "Missing data"})
+
+        success = update_grade(student_id, subject, new_grade)
+        return JsonResponse({"success": success})
 
 
 
 
+@csrf_exempt
+def update_grade_view(request):
+    if request.method == "POST":
+        import json
+        data = json.loads(request.body)
+        student_id = data.get("student_id")
+        subject = data.get("subject_name", "").lower()
+        new_grade = data.get("new_grade")
+        report_id = data.get("report_id")
+
+        from .supabase_client import update_grade, delete_report_by_id, insert_history
+
+        if not student_id or not subject or new_grade is None or not report_id:
+            return JsonResponse({"success": False, "message": "Missing data"})
+
+        grade_success = update_grade(student_id, subject, new_grade)
+        if grade_success:
+            delete_report_by_id(report_id)
+
+            # ✅ Log to history
+            history_text = f"{subject.upper()} grade updated to {new_grade}"
+            insert_history(student_id, history_text)
+
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({"success": False})
 
 
+def history_view(request):
+    from .supabase_client import get_all_history
+    history_entries = get_all_history()
+    return render(request, "home/history.html", {"entries": history_entries})

@@ -1,15 +1,23 @@
-<!-- home/templates/home/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Update</title>
+  <title>Home Page</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
 
   <style>
-    /* Animated pastel blue rainbow background */
-    @keyframes pastelRainbow {
+    body {
+      background: linear-gradient(-45deg, #87ceeb, #4169e1, #b0e0e6, #1e90ff);
+      background-size: 400% 400%;
+      animation: bgAnimation 20s ease infinite;
+      font-family: sans-serif;
+      padding: 30px;
+      margin: 0;
+      height: 100vh;
+    }
+
+    @keyframes bgAnimation {
       0% {
         background-position: 0% 50%;
       }
@@ -21,32 +29,14 @@
       }
     }
 
-    body {
-      background: linear-gradient(
-        270deg,
-        #a8dadc,
-        #457b9d,
-        #1d3557,
-        #a8dadc,
-        #457b9d
-      );
-      background-size: 1000% 1000%;
-      animation: pastelRainbow 30s ease infinite;
-      font-family: sans-serif;
-      padding: 30px;
-      margin: 0;
-      height: 100vh;
-    }
-
     .container {
-      max-width: 700px;
-      margin: 2in auto 0 auto;
+      max-width: 600px;
+      margin: 2in auto 0 auto; /* top 2 inches, horizontal center */
       background: white;
       padding: 20px;
       border-radius: 10px;
-      border: 10px solid black;
+      border: 10px solid black;  /* <-- changed here */
       box-sizing: border-box;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
 
     h2 {
@@ -56,42 +46,196 @@
       margin: 0 0 20px 0;
     }
 
-    /* Grid for 2 columns and 6 rows */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 12px;
+.subject {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e0f0ff;
+  margin: 10px 0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Subject name and grade styling (optional refinement) */
+.subject-name, .subject-grade {
+  flex: 1;
+}
+
+/* Align the report icon on the right cleanly */
+.subject-report {
+  flex-shrink: 0;
+}
+
+.subject-report .report {
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
     }
 
-    .subject {
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    textarea {
+      width: 100%;
+      height: 70px;
+      margin-bottom: 10px;
+      resize: none;
+      font-size: 16px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .modal-buttons {
       display: flex;
       justify-content: space-between;
-      background: #e0f0ff;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-family: 'Arial Black', Gadget, sans-serif;
-      font-size: 18px;
-      align-items: center;
     }
 
-    .subject span {
-      font-size: 24px;
-      user-select: none;
+    .modal-buttons button {
+      width: 48%;
+      padding: 8px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal-buttons .submit-btn {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .modal-buttons .cancel-btn {
+      background-color: #f44336;
+      color: white;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Welcome ICCTians</h2>
-    <div class="grid">
-      <div class="subject">Sub1 <span>😊</span></div>
-      <div class="subject">New Sub1 <span>⭕</span></div>
-      <div class="subject">Sub2 <span>⭕</span></div>
-      <div class="subject">Sub3 <span>⭕</span></div>
-      <div class="subject">Sub4 <span>⭕</span></div>
-      <div class="subject">Sub5 <span>⭕</span></div>
+    <h2>Welcome {{ student_name }}!</h2>
+<div class="subject">
+  <div class="subject-name">Subject 1: SE2</div>
+  <div class="subject-grade">Grade: {{ grade_se2 }}</div>
+  <div class="subject-report">
+<span class="report"
+      data-subject="SE2"
+      {% if "SE2" not in reported_subjects %}onclick="openReport(this)"{% endif %}>
+  {% if "SE2" in reported_subjects %}⭕{% else %}❗{% endif %}
+</span>
+
+
+
+  </div>
+</div>
+
+<div class="subject">
+  <div class="subject-name">Subject 2: Cisco</div>
+  <div class="subject-grade">Grade: {{ grade_cisco }}</div>
+  <div class="subject-report">
+<span class="report"
+      data-subject="Cisco"
+      {% if "Cisco" not in reported_subjects %}onclick="openReport(this)"{% endif %}>
+  {% if "Cisco" in reported_subjects %}⭕{% else %}❗{% endif %}
+</span>
+
+
+  </div>
+</div>
+
+<div class="subject">
+  <div class="subject-name">Subject 3: GVElec</div>
+  <div class="subject-grade">Grade: {{ grade_gvelec }}</div>
+  <div class="subject-report">
+<span class="report"
+      data-subject="GVElec"
+      {% if "GVElec" not in reported_subjects %}onclick="openReport(this)"{% endif %}>
+  {% if "GVElec" in reported_subjects %}⭕{% else %}❗{% endif %}
+</span>
+
+
+  </div>
+</div>
+
+
+  </div>
+
+  <div class="modal" id="reportModal">
+    <div class="modal-content">
+      <h3>Report Issue</h3>
+      <textarea id="issueText" placeholder="Enter your issue..."></textarea>
+      <div class="modal-buttons">
+        <button class="submit-btn" onclick="submitReport()">Request Change</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      </div>
     </div>
   </div>
+
+  <script>
+  let currentIcon = null;
+  let currentSubject = null;
+
+  function openReport(icon) {
+    currentIcon = icon;
+    currentSubject = icon.getAttribute("data-subject");
+    document.getElementById("reportModal").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("issueText").value = "";
+    document.getElementById("reportModal").style.display = "none";
+    currentSubject = null;
+  }
+
+  async function submitReport() {
+    const text = document.getElementById("issueText").value.trim();
+    if (text === "") {
+      alert("Please type an issue.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/submit-report/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ report: text, subject_name: currentSubject })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert("✅ Report submitted successfully!");
+        currentIcon.innerText = "⭕";
+        closeModal();
+      } else {
+        alert("❌ Failed: " + result.message);
+      }
+    } catch (err) {
+      alert("🚫 Network error");
+    }
+  }
+</script>
+
+
 </body>
 </html>
